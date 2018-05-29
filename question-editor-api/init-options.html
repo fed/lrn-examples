@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Question Editor API Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div id="custom-question-editor"></div>
+  <script src="https://questioneditor.learnosity.com?v3"></script>
+  <script>
+    const options = {
+      configuration: {
+        consumer_key: 'ts34Rdc45SWE34f'
+      },
+
+      // Override the Question Editor API labels for i18n.
+      label_bundle: {
+        debug: false, // Reveal the key being used for all supported UI elements.
+        stimulus: 'Consigna',
+        options: 'Opciones',
+        multiple_responses: 'Múltiples respuestas',
+        'validation.valid_response.score': 'Punto(s)',
+        'heading.moreOptions': 'Más Opciones'
+      },
+
+      rich_text_editor: {
+        // @TODO: crashes with `none`.
+        type: 'wysihtml', // Options: ckeditor (default), wysihtml, none.
+        toolbar: 'math,|,bold,italic,underline' // wysihtml only.
+      },
+
+      ui: {
+        undo_redo_button: false,
+        help_button: false,
+        source_button: false,
+        layout: {
+          mode: 'advanced', // advanced | simple
+          global_template: 'edit', // edit | edit_preview | custom
+          responsive_edit_mode: {
+            breakpoint: 800 // If the container width becomes less than 800px then switch to edit layout
+          }
+        }
+      },
+
+      // Settings applied to all question types (lowest specificity),
+      // unless they are overwritten/extended by question_types or question_type_templates.
+      base_question_type: {
+        hidden: ['stimulus', 'penalty_score', 'multiple_responses'],
+        shown: ['stimulus'],
+        hidden_sections: ['more_options.heading', 'more_options.divider'],
+        shown_sections: ['more_options.content']
+      },
+
+      // Settings applied to certain question types (intermediate specificity),
+      // unless they are overwritten/extended by question_type_templates.
+      question_types: {
+        mcq: {
+          hidden: ['stimulus'],
+          shown: ['penalty_score'],
+          hidden_sections: ['more_options.content']
+        }
+      },
+
+      // Variations to base question types.
+      question_type_templates: {
+        mcq: [
+          {
+            name: 'MCQ - Custom Style',
+            reference: 'customMCQ',
+            group_reference: 'mcq',
+            description: 'MC question with block style and predefined options.',
+            defaults: {
+              options: [
+                {
+                  label: 'Australia',
+                  value: '1'
+                },
+                {
+                  label: 'New Zealand',
+                  value: '2'
+                }
+              ],
+              // Any newly added option will have the default label "Another Country"
+              'options[]': 'Another Country',
+              ui_style: {
+                type: 'block',
+                columns: 2,
+                choice_label: 'upper-alpha'
+              }
+            }
+          }
+        ]
+      }
+    };
+
+    // HTML element selector, defaults to: .learnosity-question-editor.
+    const hook = '#custom-question-editor';
+
+    // Ready and Error callbacks.
+    const callbacks = {
+      readyListener() {
+        // Question Editor API sucessfully loaded.
+        // We can now reliably start calling public methods and listen to events.
+        console.info('Ready');
+      },
+      errorListener(err) {
+        // To test the error event handler comment out the content of question_types:
+        // question_types: {},
+        console.log(`Error code: ${err.code}`);
+        console.log(`Error message: ${err.message}`);
+        console.log(`Error name: ${err.name}`);
+        console.log(`Error title: ${err.title}`);
+      }
+    };
+
+    const questionEditorApp = window.LearnosityQuestionEditor.init(options, hook, callbacks);
+
+    // editor = whole app
+    questionEditorApp.on('editor:ready', () => {
+      console.log('The editor has finished loading');
+    });
+
+    questionEditorApp.on('widget:ready', () => {
+      console.log('Widget ready', questionEditorApp.getWidget());
+    });
+
+    questionEditorApp.on('widget:changed', () => {
+      console.log('The widget has changed', questionEditorApp.getWidget());
+
+      // const stimulusAttribute = questionEditorApp.attribute('stimulus');
+      // const optionsAttribute = questionEditorApp.attribute('options');
+      // const firstOptionAttribute = questionEditorApp.attribute('options[0]');
+
+      // console.log('Stimulus attribute value', stimulusAttribute.getValue());
+      // stimulusAttribute.setValue('Blah');
+      // optionsAttribute.addArrayItem('Choice Z');
+      // firstOptionAttribute.remove();
+    });
+  </script>
+</body>
+
+</html>

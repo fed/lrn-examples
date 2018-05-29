@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Question Editor API Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html {
+      font-size: 16px;
+      font-family: sans-serif;
+    }
+
+    .learnosity-question-editor {
+      min-height: 0 !important;
+    }
+
+    .custom-layout {
+      padding: 1rem;
+    }
+
+    .custom-layout__block {
+      border: 2px dashed goldenrod;
+      background-color: ivory;
+      margin-bottom: 3rem;
+      padding: 1rem 2rem;
+    }
+
+    .custom-layout__title {
+      font-size: 3.5rem;
+      color: slategray;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Hook -->
+  <div class="learnosity-question-editor"></div>
+
+  <!-- Custom layout -->
+  <div class="custom-layout">
+    <div class="custom-layout__block">
+      <h4>Question/Feature tile list</h4>
+      <span data-lrn-qe-layout-tile-list></span>
+    </div>
+
+    <div class="custom-layout__block">
+      <h4>Editing widget title</h4>
+      <!-- Defines where the current editing widget title view should be rendered. -->
+      <!-- This is the title of the question/feature that user is editing. -->
+      <span data-lrn-qe-layout-widget-title class="custom-layout__title"></span>
+    </div>
+
+    <div class="custom-layout__block">
+      <h4>Edit Panel</h4>
+      <!-- Defines where the current editing widget panel should be rendered. -->
+      <span data-lrn-qe-layout-edit-panel></span>
+    </div>
+
+    <div class="custom-layout__block">
+      <h4>Validate question button</h4>
+      <span data-lrn-qe-layout-validate-question></span>
+    </div>
+  </div>
+
+  <script src="https://questioneditor.learnosity.com?v3"></script>
+  <script>
+    const options = {
+      configuration: {
+        consumer_key: 'ts34Rdc45SWE34f'
+      },
+
+      ui: {
+        layout: {
+          // Here we are using our `custom` global layout.
+          // Learnosity's default global layouts are `edit` and `edit_preview`.
+          global_template: 'custom'
+        }
+      }
+    };
+
+    window.LearnosityQuestionEditor.init(options);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Question Editor API Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div class="learnosity-question-editor"></div>
+  <script src="https://questioneditor.learnosity.com?v3"></script>
+  <script>
+    const options = {
+      configuration: {
+        consumer_key: 'ts34Rdc45SWE34f'
+      },
+
+      // widget_json allows you to render a specific question/feature page directly.
+      // The Question Editor will render in tile view of question/feature
+      // when initialised without widget_json.
+      widget_json: {
+        feature_id: 7003,
+        type: 'videoplayer',
+        src: 'http://www.youtube.com/watch?v=yBz1dkx7cPs'
+      }
+    };
+
+    window.LearnosityQuestionEditor.init(options);
+  </script>
+</body>
+
+</html>

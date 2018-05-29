@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Asess API Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div id="learnosity_assess"></div>
+  <script src="https://assess.learnosity.com/?v2"></script>
+  <script src="https://docs.learnosity.com/demos/other/jssdk/learnosity.dev.sdk.js"></script>
+  <script>
+    // Security attributes.
+    const security = {
+      'consumer_key': 'yis0TYCu7U9V4o7M',
+      'user_id': 'demo_student'
+    };
+
+    // Consumer secret, normally not exposed.
+    const secret = '74c5fd430cf1242a527f6223aebd42d30464be22';
+
+    const items = [
+      {
+        content: '<span class="learnosity-response question-demoscience1234"></span>',
+        response_ids: [
+          'demoscience1234'
+        ],
+        workflow: '',
+        reference: 'question-demoscience1'
+      },
+      {
+        content: '<span class="learnosity-response question-demoscience5678"></span>',
+        response_ids: [
+          'demoscience5678'
+        ],
+        workflow: '',
+        reference: 'question-demoscience2'
+      }
+    ];
+
+    const questions = [
+      {
+        response_id: 'demoscience1234',
+        type: 'sortlist',
+        description: 'In this question, the student needs to sort the events, chronologically earliest to latest.',
+        list: [
+          'Russian Revolution',
+          'Discovery of the Americas',
+          'Storming of the Bastille',
+          'Battle of Plataea',
+          'Founding of Rome',
+          'First Crusade'
+        ],
+        instant_feedback: true,
+        feedback_attempts: 2,
+        validation: {
+          valid_response: [4, 3, 5, 1, 2, 0],
+          valid_score: 1,
+          partial_scoring: true,
+          penalty_score: -1
+        }
+      },
+      {
+        response_id: 'demoscience5678',
+        type: 'highlight',
+        description: 'The student needs to mark one of the flower\'s anthers in the image.',
+        img_src: 'http://www.learnosity.com/static/img/flower.jpg',
+        line_color: 'rgb(255, 20, 0)',
+        line_width: '4'
+      }
+    ];
+
+    const options = {
+      type: 'activity',
+      ui_style: 'horizontal',
+      name: 'Assess API Example',
+      state: 'initial',
+      navigation: {
+        show_next: true,
+        toc: true,
+        show_submit: true,
+        show_save: false,
+        show_prev: true,
+        show_title: true,
+        show_intro: true,
+      },
+      time: {
+        max_time: 600,
+        limit_type: 'soft',
+        show_pause: true,
+        warning_time: 60,
+        show_time: true
+      },
+      configuration: {
+        onsubmit_redirect_url: '/assessment/',
+        onsave_redirect_url: '/assessment/',
+        idle_timeout: true,
+        questionsApiVersion: 'v2'
+      },
+      items,
+
+      // The questionsApiActivity object holds the authentication security data:
+      // consumer_key, timestamp, and signature.
+      // This requires a serverside language to generate the signature
+      // and ensure your client specific secret remains a secret.
+      questionsApiActivity: {
+        // consumer_key: 'yis0TYCu7U9V4o7M',
+        // timestamp: 'INSERT_CURRENT_TIMESTAMP_HERE',
+        // signature: 'INSERT_GENERATED SIGNATURE HERE',
+        // user_id: 'demo_student',
+        type: 'submit_practice',
+        state: 'initial',
+        id: 'assessdemo',
+        name: 'Assess API - Demo',
+        questions
+      }
+    };
+
+    const callbacks = {
+      readyListener() {
+        console.log('Assess App successfully loaded');
+      },
+      errorListener(err) {
+        console.error('Something bad happened', err);
+      }
+    };
+
+    // SDK creates the object for Questions API with the right security parameters.
+    const initOptions = Learnosity.init('questions', security, secret, options);
+
+    const assessApp = LearnosityAssess.init(initOptions, 'learnosity_assess', callbacks);
+  </script>
+</body>
+
+</html>

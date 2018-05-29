@@ -1,0 +1,16 @@
+{
+  "name": "learnosity-examples",
+  "version": "0.0.0",
+  "description": "Using Learnosity Authoring and Assessment JavaScript APIs",
+  "main": "index.html",
+  "repository": "https://github.com/fknussel/learnosity-examples.git",
+  "author": "Federico Knüssel <fknussel@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "browser-sync start --port 6789 --files \".\" --server"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.24.4"
+  }
+}

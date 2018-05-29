@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Question Editor API Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div class="learnosity-question-editor"></div>
+  <script src="https://questioneditor.learnosity.com?v3"></script>
+  <script>
+    const options = {
+      configuration: {
+        consumer_key: 'ts34Rdc45SWE34f'
+      },
+
+      // response (default) | feature
+      widget_type: 'feature'
+    };
+
+    window.LearnosityQuestionEditor.init(options);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Question API Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <h1 id="info">Rendering activity...</h1>
+
+  <!-- Question hooks -->
+  <!-- 60001 is the response_id of the first question, etc. -->
+  <span class="learnosity-response question-60001"></span>
+  <span class="learnosity-response question-60002"></span>
+  <span class="learnosity-response question-60003"></span>
+  <span class="learnosity-response question-60004"></span>
+  <span class="learnosity-response question-60005"></span>
+  <span class="learnosity-response question-60006"></span>
+
+  <!-- Save button hook -->
+  <span class="learnosity-save-button"></span>
+
+  <script src="https://questions.learnosity.com/"></script>
+  <script src="https://docs.learnosity.com/demos/other/jssdk/learnosity.dev.sdk.js"></script>
+  <script>
+    /*
+     * Here, unlike the Quick start guide, we are using Learnosity's SDK to create the
+     * initialisation options object for Questions API.
+     * The SDK will create the signature for us, simplifying the process.
+     *
+     * Please refer to https://docs.learnosity.com/questionsapi/ to find out more about:
+     *  - Initialisation options
+     *  - Event options
+     *  - Public methods
+     */
+
+    // Security attributes.
+    const security = {
+      'consumer_key': 'yis0TYCu7U9V4o7M',
+      'user_id': 'demo_student'
+    };
+
+    // Consumer secret, normally not exposed.
+    const secret = '74c5fd430cf1242a527f6223aebd42d30464be22';
+
+    // Questions JSON.
+    const expandEquationQuestion = {
+      "response_id": "60001",
+      "type": "formulaV2",
+      "instant_feedback": true,
+      "is_math": true,
+      "stimulus": "<h4>Q1. Expand the equation \\((x + 7) ( x-3)\\)</h4>",
+      "ui_style": {
+        "type": "block-keyboard"
+      },
+      "validation": {
+        "scoring_type": "exactMatch",
+        "valid_response": {
+          "score": 1,
+          "value": [{
+            "method": "equivSymbolic",
+            "value": "x^2+4x-21",
+            "options": {
+              "allowDecimal": false,
+              "inverseResult": false
+            }
+          }]
+        }
+      }
+    };
+
+    const capitalOfIrelandQuestion = {
+      "response_id": "60002",
+      "type": "shorttext",
+      "case_sensitive": true,
+      "instant_feedback": true,
+      "stimulus": "<h4>Q2. What is the capital of Ireland?</h4>",
+      "validation": {
+        "scoring_type": "exactMatch",
+        "valid_response": {
+          "score": 1,
+          "value": "Dublin"
+        },
+        "alt_responses": [{
+          "score": 2,
+          "value": "Dubh Linn"
+        }, {
+          "score": 3,
+          "value": "Baile Átha Cliath"
+        }, {
+          "score": 4,
+          "value": "Baile Atha Cliath"
+        }]
+      }
+    };
+
+    const pinpointNewZealandQuestion = {
+      "response_id": "60003",
+      "type": "hotspot",
+      "stimulus": "Select New Zealand on the map.",
+      "instant_feedback": true,
+      "image": {
+        "source": "//assets.learnosity.com/organisations/1/bead7655-fb71-41af-aeea-9e08a47eac68.png",
+        "width": 700,
+        "height": 370
+      },
+      "areas": [
+        [{
+          "x": 31.571428571429,
+          "y": 94.594594594595
+        }, {
+          "x": 28.714285714285996,
+          "y": 98.378378378378
+        }, {
+          "x": 25.571428571429,
+          "y": 97.837837837838
+        }, {
+          "x": 23.714285714286,
+          "y": 90.540540540541
+        }, {
+          "x": 23,
+          "y": 81.351351351351
+        }, {
+          "x": 22.428571428571004,
+          "y": 70.810810810811
+        }, {
+          "x": 19.714285714286003,
+          "y": 65.135135135135
+        }, {
+          "x": 17.571428571429,
+          "y": 58.108108108108006
+        }, {
+          "x": 18.714285714286,
+          "y": 53.783783783784
+        }, {
+          "x": 15.142857142857,
+          "y": 49.189189189189
+        }, {
+          "x": 11.714285714286,
+          "y": 48.648648648649
+        }, {
+          "x": 9.1428571428571,
+          "y": 40.810810810811006
+        }, {
+          "x": 7.5714285714286,
+          "y": 32.162162162162
+        }, {
+          "x": 7.8571428571429,
+          "y": 27.567567567568
+        }, {
+          "x": 9.714285714285698,
+          "y": 23.783783783784
+        }, {
+          "x": 9,
+          "y": 18.648648648649
+        }, {
+          "x": 3.1428571428571,
+          "y": 22.432432432432
+        }, {
+          "x": 1.7142857142857002,
+          "y": 19.459459459459
+        }, {
+          "x": 4.2857142857143,
+          "y": 8.6486486486486
+        }, {
+          "x": 10,
+          "y": 6.486486486486501
+        }, {
+          "x": 16.428571428571,
+          "y": 7.2972972972973
+        }, {
+          "x": 21.714285714286,
+          "y": 4.8648648648649
+        }, {
+          "x": 23.571428571429,
+          "y": 6.2162162162162
+        }, {
+          "x": 28.285714285714004,
+          "y": 1.0810810810811
+        }, {
+          "x": 36.571428571429,
+          "y": 0.54054054054054
+        }, {
+          "x": 47.285714285714,
+          "y": 1.3513513513514
+        }, {
+          "x": 46.714285714286,
+          "y": 7.2972972972973
+        }, {
+          "x": 44.571428571429,
+          "y": 11.081081081080999
+        }, {
+          "x": 45.428571428571,
+          "y": 14.324324324324
+        }, {
+          "x": 43.142857142857,
+          "y": 16.486486486486
+        }, {
+          "x": 39.571428571429,
+          "y": 15.945945945945999
+        }, {
+          "x": 36.428571428571,
+          "y": 19.189189189189
+        }, {
+          "x": 32,
+          "y": 16.216216216216
+        }, {
+          "x": 34.142857142857,
+          "y": 24.864864864865
+        }, {
+          "x": 30.285714285714,
+          "y": 28.378378378378
+        }, {
+          "x": 26.285714285714,
+          "y": 30.27027027027
+        }, {
+          "x": 23.857142857143,
+          "y": 35.675675675676
+        }, {
+          "x": 24,
+          "y": 40
+        }, {
+          "x": 27.142857142857004,
+          "y": 42.70270270270301
+        }, {
+          "x": 27.142857142857004,
+          "y": 46.756756756757
+        }, {
+          "x": 31.285714285714,
+          "y": 50.270270270270004
+        }, {
+          "x": 32.285714285714,
+          "y": 54.054054054054
+        }, {
+          "x": 37.571428571429,
+          "y": 59.18918918918901
+        }, {
+          "x": 36,
+          "y": 65.405405405405
+        }, {
+          "x": 35.714285714286,
+          "y": 73.513513513514
+        }, {
+          "x": 32.857142857143,
+          "y": 76.486486486486
+        }, {
+          "x": 33.285714285714,
+          "y": 83.78378378378399
+        }, {
+          "x": 30.142857142857,
+          "y": 85.945945945946
+        }],
+        [{
+          "x": 60,
+          "y": 75.135135135135
+        }, {
+          "x": 62.857142857143,
+          "y": 75.675675675676
+        }, {
+          "x": 64.571428571429,
+          "y": 62.972972972973
+        }, {
+          "x": 62.571428571429,
+          "y": 63.243243243243
+        }, {
+          "x": 60.428571428571,
+          "y": 65.675675675676
+        }],
+        [{
+          "x": 79.428571428571,
+          "y": 73.24324324324301
+        }, {
+          "x": 79.428571428571,
+          "y": 79.459459459459
+        }, {
+          "x": 80.571428571429,
+          "y": 84.054054054054
+        }, {
+          "x": 85.857142857143,
+          "y": 81.08108108108101
+        }, {
+          "x": 87.714285714286,
+          "y": 84.86486486486501
+        }, {
+          "x": 90.714285714286,
+          "y": 85.675675675676
+        }, {
+          "x": 94.857142857143,
+          "y": 77.83783783783798
+        }, {
+          "x": 94.857142857143,
+          "y": 72.432432432432
+        }, {
+          "x": 94,
+          "y": 67.297297297297
+        }, {
+          "x": 92.571428571429,
+          "y": 64.324324324324
+        }, {
+          "x": 90,
+          "y": 63.513513513514
+        }, {
+          "x": 86.142857142857,
+          "y": 63.513513513514
+        }, {
+          "x": 83.285714285714,
+          "y": 65.945945945946
+        }],
+        [{
+          "x": 93.285714285714,
+          "y": 89.189189189189
+        }, {
+          "x": 95.285714285714,
+          "y": 90.27027027027002
+        }, {
+          "x": 99.857142857143,
+          "y": 84.594594594595
+        }, {
+          "x": 99.714285714286,
+          "y": 79.189189189189
+        }, {
+          "x": 97.857142857143,
+          "y": 78.918918918919
+        }, {
+          "x": 96.142857142857,
+          "y": 83.24324324324299
+        }]
+      ],
+      "area_attributes": {
+        "global": {
+          "fill": "rgba(12, 176, 216, 0.48)",
+          "stroke": "rgba(25, 90, 107, 0.83)"
+        }
+      },
+      "validation": {
+        "scoring_type": "exactMatch",
+        "valid_response": {
+          "score": 1,
+          "value": ["3"]
+        }
+      }
+    };
+
+    const australianCitiesQuestion = {
+      "response_id": "60004",
+      "instant_feedback": true,
+      "possible_responses": ["Tasmania", "Victoria", "New South Wales", "Queensland", "Western Australia"],
+      "stimulus": "Match Australian cities to their corresponding state.",
+      "stimulus_list": ["Sydney", "Brisbane", "Melbourne", "Hobart", "Perth"],
+      "type": "association",
+      "validation": {
+        "scoring_type": "exactMatch",
+        "valid_response": {
+          "score": 1,
+          "value": ["New South Wales", "Queensland", "Victoria", "Tasmania", "Western Australia"]
+        }
+      },
+      "shuffle_options": true
+    };
+
+    const highlightQuestion = {
+      "response_id": "60005",
+      "stimulus": "Highlight the right word.",
+      "template": "<p>Risus et <span class=\"lrn_token\">tincidunt</span> turpis <span class=\"lrn_token\">facilisis.</span></p><p>Curabitur eu nulla justo. Curabitur vulputate ut nisl et bibendum. <span class=\"lrn_token\">Nunc diam enim</span>, porta sed eros vitae. dignissim, et tincidunt turpis facilisis.</p><p><span class=\"lrn_token\">Curabitur eu nulla justo. Curabitur vulputate ut nisl et bibendum.</span></p>",
+      "tokenization": "custom",
+      "type": "tokenhighlight",
+      "instant_feedback": true,
+      "validation": {
+        "scoring_type": "exactMatch",
+        "valid_response": {
+          "score": 1,
+          "value": [0, 1, 2]
+        }
+      }
+    };
+
+    const booleanQuestion = {
+      "response_id": "60006",
+      "instant_feedback": true,
+      "options": [{
+        "label": "True",
+        "value": "0"
+      }, {
+        "label": "False",
+        "value": "1"
+      }],
+      "stimulus": "This is true.",
+      "type": "mcq",
+      "ui_style": {
+        "type": "horizontal"
+      },
+      "validation": {
+        "scoring_type": "exactMatch",
+        "valid_response": {
+          "score": 1,
+          "value": ["0"]
+        }
+      }
+    };
+
+    // The rest of the init options.
+    const request = {
+      type: 'submit_practice',
+      state: 'resume',
+      id: 'questions_example',
+      name: 'Questions API Example',
+      course_id: 'examples',
+      renderSaveButton: true,
+      questions: [
+        expandEquationQuestion,
+        capitalOfIrelandQuestion,
+        pinpointNewZealandQuestion,
+        australianCitiesQuestion,
+        highlightQuestion,
+        booleanQuestion
+      ]
+    };
+
+    // SDK creates the object for Questions API with the right security parameters.
+    const initOptions = Learnosity.init('questions', security, secret, request);
+    const callbacks = {
+      readyListener() {
+        // This updates the top header with the number of questions that were rendered,
+        // and will be called when Questions API has finished loading.
+        const infoNode = document.getElementById('info');
+        const renderedQuestionsCount = Object.keys(questionsApp.getQuestions()).length;
+
+        infoNode.textContent = renderedQuestionsCount + ' questions rendered successfully';
+      },
+      saveSuccess() {
+        questionsApp.validateQuestions();
+        console.log('Answers were successfully saved.');
+      },
+      saveError(err) {
+        console.error('Answers could not be saved.', err);
+      }
+    };
+
+    // Questions app initialisation.
+    const questionsApp = LearnosityApp.init(initOptions, callbacks);
+  </script>
+</body>
+
+</html>

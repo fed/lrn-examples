@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Question Editor API Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <!-- Hook -->
+  <div class="learnosity-question-editor"></div>
+
+  <!-- Question layout -->
+  <span data-lrn-qe-label="stimulus" value="Question:"></span>
+  <span data-lrn-qe-input="stimulus" class="lrn-qe-lg-ckeditor"></span>
+
+  <span data-lrn-qe-label="options" value="Options:" class=" mts"></span>
+  <div data-lrn-qe-loop="options[*]">
+    <span data-lrn-qe-input="options[*]" data-lrn-qe-hide-delete="false"></span>
+  </div>
+  <span data-lrn-qe-action-add="options"></span>
+
+  <div class="lrn-qe-row-flex">
+    <div class="lrn-qe-col-sm-6">
+      <span data-lrn-qe-label="multiple_responses"></span>
+      <span data-lrn-qe-input="multiple_responses"></span>
+    </div>
+    <div class="lrn-qe-col-sm-6">
+      <span data-lrn-qe-label="shuffle_options"></span>
+      <span data-lrn-qe-input="shuffle_options"></span>
+    </div>
+  </div>
+
+  <hr>
+  <span data-lrn-qe-label="validation.valid_response.value" value="Select the correct answer:"></span>
+  <span data-lrn-qe-input="validation.valid_response.value"></span>
+
+  <script src="https://questioneditor.learnosity.com?v3"></script>
+  <script>
+    const options = {
+      configuration: {
+        consumer_key: 'ts34Rdc45SWE34f'
+      },
+
+      ui: {
+        layout: {
+          global_template: 'edit',
+          edit_panel: {
+            mcq: [
+              {
+                layout: 'mcq_1'
+              },
+              {
+                layout: 'mcq_2',
+                template: 'Multiple Choice – Multiple Response'
+              },
+              {
+                layout: 'mcq_2',
+                template_reference: '9e8149bd-e4d8-4dd6-a751-1a113a4b9163'
+              }
+            ]
+          }
+        }
+      },
+    };
+
+    window.LearnosityQuestionEditor.init(options);
+  </script>
+</body>
+
+</html>
